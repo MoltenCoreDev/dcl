@@ -16,7 +16,7 @@ var (
 
 func main() {
   scanner := bufio.NewScanner(os.Stdin)
-  token := "ODQ4NTMzNzY4NjE2MTQ5MDAy.YLOAxA.g7vDM3mJuEEdywZlZlYof52p3Hc"
+  token := ""
   dg, err := discordgo.New(token)
   if err != nil {
     fmt.Println(err)
