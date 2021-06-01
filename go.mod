@@ -1,4 +1,4 @@
-module h
+module github.com/MoltenCoreDev/dcl
 
 go 1.16
 
