@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/MoltenCoreDev/dcl/commands"
@@ -37,16 +38,41 @@ func main() {
 	defer dg.Close()
 
 	for {
-		fmt.Printf("dcl >>")
+		fmt.Printf("dcl >> ")
 		scanner.Scan()
 		args := strings.Split(scanner.Text(), " ")
 		cmd := args[0]
 
 		switch cmd {
-		case "switchGuild":
-			commands.ChangeGuild(&currentGuild, args[1])
-		case "switchChannel":
-			commands.ChangeChannel(&currentChannel, args[1])
+		case "switch":
+			guilds := dg.State.Guilds
+			for i, guild := range guilds {
+				fmt.Printf("%d. %v \n", i, guild.Name)
+			}
+
+			fmt.Println("Select the guild.")
+
+			scanner.Scan()
+
+			c, _ := strconv.Atoi(scanner.Text())
+
+			guild := guilds[c]
+
+			fmt.Printf("Switched to the Guild %v. \nWhat text channel do you want to use? ", guild.Name)
+			currentGuild = guild.ID
+
+			for i, channel := range guild.Channels {
+				fmt.Printf("%d. %v \n", i, channel.Name)
+			}
+
+			scanner.Scan()
+
+			c, _ = strconv.Atoi(scanner.Text())
+
+			currentChannel = guild.Channels[c].ID
+
+			fmt.Printf("Switched the channel to %v\n", guild.Channels[c].Name)
+
 		case "send":
 			commands.SendMessage(dg, currentChannel, strings.Join(args[1:], " "))
 		}
