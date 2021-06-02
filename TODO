@@ -1,4 +1,5 @@
-- switchGuild command
-- switchChannel command
-- send command
 - customizable prompt
+- reply support
+- image & video support
+- json config
+- slowmode support ( no more getting termed for nothing)

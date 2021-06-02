@@ -58,20 +58,27 @@ func main() {
 
 			guild := guilds[c]
 
-			fmt.Printf("Switched to the Guild %v. \nWhat text channel do you want to use? ", guild.Name)
+			fmt.Printf("Switched to the Guild %v. \nWhat text channel do you want to use? \n", guild.Name)
 			currentGuild = guild.ID
 
-			for i, channel := range guild.Channels {
-				fmt.Printf("%d. %v \n", i, channel.Name)
+			var channels []discordgo.Channel
+
+			for _, channel := range guild.Channels {
+				if channel.Type != 0 {
+					continue
+				} else {
+					channels = append(channels, *channel)
+					fmt.Printf("%d. %v \n", len(channels), channel.Name)
+				}
 			}
 
 			scanner.Scan()
 
 			c, _ = strconv.Atoi(scanner.Text())
 
-			currentChannel = guild.Channels[c].ID
+			currentChannel = channels[c-1].ID
 
-			fmt.Printf("Switched the channel to %v\n", guild.Channels[c].Name)
+			fmt.Printf("Switched the channel to %v\n", channels[c-1].Name)
 
 		case "send":
 			commands.SendMessage(dg, currentChannel, strings.Join(args[1:], " "))
