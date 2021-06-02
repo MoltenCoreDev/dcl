@@ -12,8 +12,9 @@ import (
 )
 
 var (
-	currentGuild   string
+	currentGuild   string // TODO: make a use of it
 	currentChannel string
+	PS1            string
 )
 
 func main() {
@@ -82,6 +83,8 @@ func main() {
 
 		case "send":
 			commands.SendMessage(dg, currentChannel, strings.Join(args[1:], " "))
+		case "join":
+			dg.InviteAccept(args[1])
 		}
 
 		if cmd == "quit" { // We need to break the for loop not the switch statement
@@ -94,4 +97,7 @@ func main() {
 }
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+	if m.ChannelID == currentChannel {
+		fmt.Printf("\n %v >> %v", m.Author.Username, m.Content)
+	}
 }
