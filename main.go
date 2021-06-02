@@ -39,7 +39,7 @@ func main() {
 	defer dg.Close()
 
 	for {
-		fmt.Printf("dcl >> ")
+		commands.DrawPrompt("")
 		scanner.Scan()
 		args := strings.Split(scanner.Text(), " ")
 		cmd := args[0]
@@ -97,7 +97,7 @@ func main() {
 }
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
-	if m.ChannelID == currentChannel {
-		fmt.Printf("\n %v >> %v", m.Author.Username, m.Content)
+	if m.ChannelID == currentChannel && m.Author.ID != s.State.User.ID {
+		fmt.Printf("\n%v >> %v \n", m.Author.Username, m.Content)
 	}
 }
