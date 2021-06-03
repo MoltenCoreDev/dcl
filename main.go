@@ -88,9 +88,6 @@ func main() {
 
 		case "send":
 			go commands.SendMessage(dg, currentChannel, strings.Join(args[1:], " "))
-		case "join":
-			// TODO: test this
-			dg.InviteAccept(args[1])
 		case "PS1":
 			PS1 = strings.Join(args[1:], " ")
 		}
