@@ -17,6 +17,11 @@ var (
 	PS1            string
 )
 
+func init() {
+	// I want to use init method to keep the var cleaner
+	PS1 = "%v >> "
+}
+
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	token := os.Getenv("dcl_token")
@@ -39,7 +44,7 @@ func main() {
 	defer dg.Close()
 
 	for {
-		commands.DrawPrompt("")
+		commands.DrawPrompt(PS1)
 		scanner.Scan()
 		args := strings.Split(scanner.Text(), " ")
 		cmd := args[0]
@@ -82,9 +87,12 @@ func main() {
 			fmt.Printf("Switched the channel to %v\n", channels[c-1].Name)
 
 		case "send":
-			commands.SendMessage(dg, currentChannel, strings.Join(args[1:], " "))
+			go commands.SendMessage(dg, currentChannel, strings.Join(args[1:], " "))
 		case "join":
+			// TODO: test this
 			dg.InviteAccept(args[1])
+		case "PS1":
+			PS1 = strings.Join(args[1:], " ")
 		}
 
 		if cmd == "quit" { // We need to break the for loop not the switch statement
