@@ -19,7 +19,7 @@ var (
 
 func init() {
 	// I want to use init method to keep the var cleaner
-	PS1 = "%v >> "
+	PS1 = "dcl >> "
 }
 
 func main() {
